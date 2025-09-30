@@ -1,7 +1,17 @@
 // app.js
-const API_BASE = 'https://odia-dj-music.onrender.com/api';
+let API_BASE = 'https://odia-dj.priyabrataghadai383.workers.dev/api'; // Alternate Server: https://odia-dj-music.onrender.com
 let currentData = null;
 let currentMode = 'browse';
+
+// Server selector change
+document.getElementById('serverSelector').addEventListener('change', (e) => {
+    API_BASE = e.target.value; // update API base dynamically
+    if (currentMode === 'search' && document.getElementById('searchInput').value.trim()) {
+        loadSearchData(document.getElementById('searchInput').value.trim(), 1);
+    } else {
+        loadBrowseData(1);
+    }
+});
 
 // Load initial browse data
 window.addEventListener('DOMContentLoaded', () => {
@@ -205,8 +215,7 @@ async function loadRandomTrack() {
             const trackName = extractTrackName(randomTrack.url);
             const downloadUrl = `https://${data.metadata.domain}/files/download/id/${trackId}`;
             
-            // ✅ Use safePlay to avoid AbortError
-            safePlay(trackId, downloadUrl, trackName, site);
+            Play(trackId, downloadUrl, trackName, site);
         }
     } catch (error) {
         showError('Failed to load random track. Make sure the API is running.');
