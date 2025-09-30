@@ -193,7 +193,7 @@ async function loadRandomTrack() {
     const site = document.getElementById('siteSelector').value;
     
     try {
-        const response = await fetch(`${API_BASE}/browse?site=${site}&page=1&limit=100`);
+        const response = await fetch(`${API_BASE}/browse?site=${site}&page=1&limit=200`);
         const data = await response.json();
         
         if (data.success && data.data.length > 0) {
@@ -215,7 +215,7 @@ async function loadRandomTrack() {
             const trackName = extractTrackName(randomTrack.url);
             const downloadUrl = `https://${data.metadata.domain}/files/download/id/${trackId}`;
             
-            Play(trackId, downloadUrl, trackName, site);
+            playAudio(trackId, downloadUrl, trackName, site);
         }
     } catch (error) {
         showError('Failed to load random track. Make sure the API is running.');
